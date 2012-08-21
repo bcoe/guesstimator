@@ -8,6 +8,7 @@ class Sampy(object):
     SAMPLE_SET_LIST_SUFFIX = 'sample_sets'
 
     def __init__(self, environment='production', redis_host='localhost', random=random, time=time):
+        self.writes_performed = 0
         self.redis = Redis(redis_host)
         self.environment = environment
         self.random = random
@@ -25,6 +26,7 @@ class Sampy(object):
     def record(self, sample_set_name):
         recording_frequency = float( self.redis.hget(self._get_hash_key(sample_set_name), 'recording_frequency') )
         if self.random() <= recording_frequency:
+            self.writes_performed += 1
             self.redis.hincrby(self._get_hash_key(sample_set_name), 'samples_taken', 1)
     
     def read(self, sample_set_name):
