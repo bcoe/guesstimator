@@ -20,6 +20,7 @@ if not sample_set_name in sampy.list_sample_sets():
 while True:
     time.sleep(10)
     operations = float( redis.get('sampy_example_actual_operation_count') )
+    
     timestamp, estimated_operations = sampy.read(sample_set_name)
     print "Metrics:\n\toperation count: \t\033[32m%s\033[m\n\testimated count:\t\033[31m%s\033[m\n\n\tOperations per-second:\t%s\n---------" % (
         operations,

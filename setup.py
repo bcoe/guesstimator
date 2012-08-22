@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(name="sampy",
       version="0.0.1",
-      description="Redis-backed tool for probabilistically tracking the throughput of distributed systems.",
+      description="Estimates the performance of a distributed system based on a sample set of data.",
       author="Benjamin Coe",
       author_email="ben@attachments.me",
       entry_points = {},
