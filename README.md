@@ -1,5 +1,5 @@
-Sampy
-=====
+Guesstimator
+==========
 
 Estimates the performance of a distributed system based on a sample set of data.
 
@@ -12,9 +12,9 @@ Creating a Sample Set
 This should only be done once, for each performance metric that will be tracked.
 
 ```python
-sampy = Sampy()
+guesstimator = Guesstimator()
 
-sampy.create_sample_set(
+guesstimator.create_sample_set(
     name='sample_set_name',
 	recording_frequency=0.5
 )
@@ -31,8 +31,8 @@ Once you have created a sample set, workers in the distributed begin recording p
 Writes will be performed to Redis with the probability set when creating the sample set.
 
 ```python
-sampy = Sampy()
-sampy.record('sample_set_name')
+guesstimator = Guesstimator()
+guesstimator.record('sample_set_name')
 ```
 
 Reading Performance Data
@@ -43,18 +43,18 @@ While there are multiple workers, there should be a single reader of performance
 **Getting the timestamp and operation count**
 
 ```python
-sampy = Sampy()
-timestamp, operation_count = sampy.read('sample_set_name')
+guesstimator = Guesstimator()
+timestamp, operation_count = guesstimator.read('sample_set_name')
 ```
 
-* **timestamp** is the unix time since sampy started tracking performance information.
+* **timestamp** is the unix time since guesstimator started tracking performance information.
 * **operation\_count** the estimated number of operations that have occurred since **timestamp**.
 
 **Reseting timestamp and operation count**
 
 ```python
-sampy = Sampy()
-sampy.reset('sample_set_name')
+guesstimator = Guesstimator()
+guesstimator.reset('sample_set_name')
 ```
 
 This sets **timestamp** to the current time, and **operation\_count** back to zero.

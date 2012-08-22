@@ -2,9 +2,9 @@ from time import time
 from random import random
 from redis import Redis
 
-class Sampy(object):
+class Guesstimator(object):
     
-    SAMPY_PREFIX = 'sampy'
+    SAMPY_PREFIX = 'guesstimator'
     SAMPLE_SET_LIST_SUFFIX = 'sample_sets'
 
     def __init__(self, environment='production', redis_host='localhost', random=random, time=time):
