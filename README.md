@@ -9,13 +9,13 @@ Estimates the performance of a distributed system based on a sample set of data.
 Creating a Sample Set
 ---------------------
 
-This should only be done once per performance metric that will be tracked.
+This should only be done once, for each performance metric that will be tracked.
 
 ```python
 sampy = Sampy()
 
 sampy.create_sample_set(
-    name='sample\_set\_name',
+    name='sample_set_name',
 	recording_frequency=0.5
 )
 ```
@@ -32,7 +32,7 @@ Writes will be performed to Redis with the probability set when creating the sam
 
 ```python
 sampy = Sampy()
-sampy.record('sample\_set\_name')
+sampy.record('sample_set_name')
 ```
 
 Reading Performance Data
@@ -44,7 +44,7 @@ While there are multiple workers, there should be a single reader of performance
 
 ```python
 sampy = Sampy()
-timestamp, operation\_count = sampy.read('sample\_set\_name')
+timestamp, operation_count = sampy.read('sample_set_name')
 ```
 
 * **timestamp** is the unix time since sampy started tracking performance information.
@@ -54,7 +54,7 @@ timestamp, operation\_count = sampy.read('sample\_set\_name')
 
 ```python
 sampy = Sampy()
-sampy.reset('sample\_set\_name')
+sampy.reset('sample_set_name')
 ```
 
 This sets **timestamp** to the current time, and **operation\_count** back to zero.
