@@ -6,8 +6,9 @@ class Guesstimator(object):
     
     SAMPY_PREFIX = 'guesstimator'
     SAMPLE_SET_LIST_SUFFIX = 'sample_sets'
+    SAMPLE_SET_CACHE = {}
 
-    def __init__(self, environment='production', redis_host='localhost', random=random, time=time):
+    def __init__(self, redis_host='localhost', environment='production', random=random, time=time):
         self.writes_performed = 0
         self.redis = Redis(redis_host)
         self.environment = environment
@@ -24,7 +25,13 @@ class Guesstimator(object):
         return self.redis.lrange(self._sample_set_list_key, 0, 9999)
         
     def record(self, sample_set_name):
-        recording_frequency = float( self.redis.hget(self._get_hash_key(sample_set_name), 'recording_frequency') )
+        
+        # Lookup the recording frequency in the cache.
+        key = self._get_hash_key(sample_set_name)
+        if not Guesstimator.SAMPLE_SET_CACHE.get(key, None):
+            Guesstimator.SAMPLE_SET_CACHE[key] = self.redis.hgetall(key)
+        recording_frequency = float( Guesstimator.SAMPLE_SET_CACHE[key]['recording_frequency'] )
+        
         if self.random() <= recording_frequency:
             self.writes_performed += 1
             self.redis.hincrby(self._get_hash_key(sample_set_name), 'samples_taken', 1)
