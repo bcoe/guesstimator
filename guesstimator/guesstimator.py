@@ -29,7 +29,16 @@ class Guesstimator(object):
         # Lookup the recording frequency in the cache.
         key = self._get_hash_key(sample_set_name)
         if not Guesstimator.SAMPLE_SET_CACHE.get(key, None):
-            Guesstimator.SAMPLE_SET_CACHE[key] = self.redis.hgetall(key)
+            sample_set = self.redis.hgetall(key)
+            
+            # Create a sample set if it doesn't exist.
+            if not sample_set:
+                self.create_sample_set(sample_set_name)
+                sample_set = self.redis.hgetall(key)
+            
+            # Populate the cache.
+            Guesstimator.SAMPLE_SET_CACHE[key] = sample_set
+        
         recording_frequency = float( Guesstimator.SAMPLE_SET_CACHE[key]['recording_frequency'] )
         
         if self.random() <= recording_frequency:
